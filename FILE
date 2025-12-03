@@ -1,0 +1,61 @@
+#include <stdio.h>
+
+struct Student {
+    char name[50];
+    float marks;
+};
+
+void addStudent() {
+    struct Student s;
+    FILE *fp = fopen("grades.txt", "a");
+
+    if (fp == NULL) {
+        printf("Error opening file for writing!\n");
+        return;
+    }
+
+    printf("Enter Student Name: ");
+    scanf("%s", s.name);
+
+    printf("Enter Marks: ");
+    scanf("%f", &s.marks);
+
+    fprintf(fp, "%s %.2f\n", s.name, s.marks);
+    fclose(fp);
+
+    printf("Record Added Successfully!\n");
+}
+
+void displayStudents() {
+    struct Student s;
+    FILE *fp = fopen("grades.txt", "r");
+
+    if (fp == NULL) {
+        printf("Error opening file for reading! (File may not exist)\n");
+        return;
+    }
+
+    printf("\n--- STORED STUDENT RECORDS ---\n");
+    while (fscanf(fp, "%s %f", s.name, &s.marks) != EOF) {
+        printf("Name: %s\tMarks: %.2f\n", s.name, s.marks);
+    }
+
+    fclose(fp);
+}
+
+int main() {
+    int choice;
+
+    while (1) {
+        printf("\n1. Add Student\n2. Display Students\n3. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: addStudent(); break;
+            case 2: displayStudents(); break;
+            case 3: return 0;
+            default: printf("Invalid choice!\n");
+        }
+    }
+}
